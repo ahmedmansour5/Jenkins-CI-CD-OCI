@@ -10,6 +10,7 @@ services:
     restart: always
     ports:
       - 80:8080
+    container_name: jenkins-controller
     volumes:
       - jenkins_home:/var/jenkins_home
       - jenkinsRef:/usr/share/jenkins/ref
@@ -19,13 +20,16 @@ services:
       - JENKINS_ADMIN_ID=${jenkins_user}
       - JENKINS_ADMIN_PASSWORD=${jenkins_password}
       - CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml
-      
+
   agent:
+    # java path /opt/java/openjdk/bin/java for agent configuration
     image: jenkins/ssh-agent:jdk11
-    privileged: true
-    user: root
+    # add the below if you want to use root user
+    #privileged: true
+    #user: root
     container_name: jenkins-agent
     expose:
       - 22
     environment:
+      # add the ssh-pub-key for ssh connection between controller/agent
       - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCu+ChycaZixWijyjw4A1N9qm/Mmfb/QtcItSkNDWvOXJVGkwvOu3qjhSpVQvH/eeJq/MIZNggOnkJr/G5W8vAjtf9phHV4aXt3DEPH5y5EXAJ7opmVc/Y5fUwa27vHzntQpoAv0UfCJQLvIrMkJDT8qK4cSlxIsEgvYOCpy7J/rQ2UuZ+yhdgxTUDAK94FDkLKXHVcEGKBnYNz9L9Rtw9b35riHA460387NUyRY3th3tTqW7ukub2q3BbwoDRekc7mgzBFLaZZ+0nzfdiad6SgTuzWXWUKA1S9dLFSDDTNSSklTqRzbMf0FZpCPrS/HrXMEgD+sK/KEj2MlEdy+FW5 ssh-key-2023-01-19
