@@ -10,7 +10,7 @@ services:
     restart: always
     ports:
       - 80:8080
-    container_name: jenkins-controller
+    #container_name: jenkins-controller
     volumes:
       - jenkins_home:/var/jenkins_home
       - jenkinsRef:/usr/share/jenkins/ref
@@ -24,10 +24,11 @@ services:
   agent:
     # java path /opt/java/openjdk/bin/java for agent configuration
     image: jenkins/ssh-agent:jdk11
+    restart: always
     # add the below if you want to use root user
     #privileged: true
     #user: root
-    container_name: jenkins-agent
+    #container_name: jenkins-agent
     expose:
       - 22
     environment:

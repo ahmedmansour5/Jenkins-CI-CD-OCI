@@ -102,6 +102,44 @@ resource "null_resource" "Jenkins_provisioner" {
     }
   }
 
+provisioner "file" {
+    content     = file("${path.module}/scripts/private")
+    destination = "/home/opc/private"
+
+    connection {
+      type        = "ssh"
+      host        = oci_core_public_ip.Jenkins_public_ip.ip_address
+      agent       = false
+      timeout     = "5m"
+      user        = "opc"
+      private_key = tls_private_key.public_private_key_pair.private_key_pem
+
+    }
+  }
+
+# In case the cloud-init script doesn't work
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      host        = oci_core_public_ip.Jenkins_public_ip.ip_address
+      agent       = false
+      timeout     = "5m"
+      user        = "opc"
+      private_key = tls_private_key.public_private_key_pair.private_key_pem
+
+    }
+
+    inline = [ 
+      "sudo yum install -y docker-engine docker-compose",
+      "sudo systemctl daemon-reload",
+      "sudo systemctl enable docker.service",
+      "sudo systemctl start --no-block docker.service",
+      "sudo touch /tmp/cloud-init-complete"
+      ]
+
+
+  }
+
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -115,7 +153,7 @@ resource "null_resource" "Jenkins_provisioner" {
 
     inline = [ 
       "while [ ! -f /tmp/cloud-init-complete ]; do sleep 1; done",
-      "docker run -v opc_jenkins_home:/var/jenkins_home -v opc_jenkinsRef:/usr/share/jenkins/ref -v /home/opc/casc.yaml:/jenkins/config/casc.yaml -e JENKINS_ADMIN_ID=${var.jenkins_user} -e JENKINS_ADMIN_PASSWORD=${var.jenkins_password}  -e CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml --entrypoint /bin/jenkins-plugin-cli jenkins/jenkins:lts -p git matrix-auth workflow-aggregator blueocean credentials-binding configuration-as-code" 
+      "docker run -v opc_jenkins_home:/var/jenkins_home -v opc_jenkinsRef:/usr/share/jenkins/ref -v /home/opc/casc.yaml:/jenkins/config/casc.yaml -e JENKINS_ADMIN_ID=${var.jenkins_user} -e JENKINS_ADMIN_PASSWORD=${var.jenkins_password}  -e CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml --entrypoint /bin/jenkins-plugin-cli jenkins/jenkins:lts -p git terraform matrix-auth workflow-aggregator blueocean credentials-binding configuration-as-code ssh-slaves" 
       ]
 
 
