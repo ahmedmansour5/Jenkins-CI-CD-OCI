@@ -14,14 +14,14 @@ The final reference architecture after the deployment and some key components ar
 The pipeline can be deployed on [Oracle Cloud Infrastructure][oci] using the below deployment options:
 
 1. [Terraform][tf] 
-2. [Resource Manager][orm_landing] by clicking the following button: [![Deploy to Oracle Cloud][magic_button]][magic_mushop_basic_stack]
+2. [Resource Manager][orm_landing] by clicking the following button  [![Deploy to Oracle Cloud][magic_button]][magic_mushop_basic_stack]
 
 [oci]: https://cloud.oracle.com
 [orm]: https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm
 [tf]: https://www.terraform.io
 [orm_landing]:https://www.oracle.com/cloud/systems-management/resource-manager/
 [magic_button]: https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg
-[magic_mushop_basic_stack]: https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/ahmedmansour5/Jenkins-CI-CD-OCI/blob/main/Deployment_zip/jenkins-stack-configuration.zip
+[magic_mushop_basic_stack]: https://cloud.oracle.com/resourcemanager/stacks/create
 
 </br>
 
