@@ -102,8 +102,8 @@ resource "null_resource" "Jenkins_provisioner" {
     }
   }
 
-provisioner "file" {
-    content     = file("${path.module}/scripts/private")
+  provisioner "file" {
+    content     = tls_private_key.public_private_key_pair.private_key_pem
     destination = "/home/opc/private"
 
     connection {
@@ -117,7 +117,7 @@ provisioner "file" {
     }
   }
 
-# In case the cloud-init script doesn't work
+  # In case the cloud-init script doesn't work
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -129,13 +129,13 @@ provisioner "file" {
 
     }
 
-    inline = [ 
+    inline = [
       "sudo yum install -y docker-engine docker-compose",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable docker.service",
       "sudo systemctl start --no-block docker.service",
       "sudo touch /tmp/cloud-init-complete"
-      ]
+    ]
 
 
   }
@@ -151,10 +151,10 @@ provisioner "file" {
 
     }
 
-    inline = [ 
+    inline = [
       "while [ ! -f /tmp/cloud-init-complete ]; do sleep 1; done",
-      "docker run -v opc_jenkins_home:/var/jenkins_home -v opc_jenkinsRef:/usr/share/jenkins/ref -v /home/opc/casc.yaml:/jenkins/config/casc.yaml -e JENKINS_ADMIN_ID=${var.jenkins_user} -e JENKINS_ADMIN_PASSWORD=${var.jenkins_password}  -e CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml --entrypoint /bin/jenkins-plugin-cli jenkins/jenkins:lts -p git terraform matrix-auth workflow-aggregator blueocean credentials-binding configuration-as-code ssh-slaves" 
-      ]
+      "docker run -v opc_jenkins_home:/var/jenkins_home -v opc_jenkinsRef:/usr/share/jenkins/ref -v /home/opc/casc.yaml:/jenkins/config/casc.yaml -e JENKINS_ADMIN_ID=${var.jenkins_user} -e JENKINS_ADMIN_PASSWORD=${var.jenkins_password}  -e CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml --entrypoint /bin/jenkins-plugin-cli jenkins/jenkins:lts -p git terraform matrix-auth workflow-aggregator blueocean credentials-binding configuration-as-code ssh-slaves"
+    ]
 
 
   }
@@ -183,6 +183,6 @@ provisioner "file" {
 locals {
   availability_domain_name   = var.availability_domain_name != null ? var.availability_domain_name : data.oci_identity_availability_domains.ADs.availability_domains[0].name
   instance_shape             = var.instance_shape
-  compute_flexible_shapes    = ["VM.Standard.E3.Flex","VM.Standard.E4.Flex"]
+  compute_flexible_shapes    = ["VM.Standard.E3.Flex", "VM.Standard.E4.Flex"]
   is_flexible_instance_shape = contains(local.compute_flexible_shapes, local.instance_shape)
 }
