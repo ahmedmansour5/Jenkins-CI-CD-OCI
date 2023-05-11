@@ -28,7 +28,7 @@ The pipeline can be deployed on [Oracle Cloud Infrastructure][oci] using the bel
 ## Deploy Using Oracle Resource Manager
 The steps below guide you through deploying the pipeline on your tenancy using the OCI Resource Manager:
 
-1. Download the [`jenkins-stack-configuration.zip`](https://github.com/ahmedmansour5/Jenkins-CI-CD-OCI/blob/main/Deployment_zip/jenkins-stack-configuration.zip) file.
+1. Download the [`jenkins-stack-configuration.zip`](https://github.com/ahmedmansour5/Jenkins-CI-CD-OCI/releases/latest/download/jenkins-stack-configuration.zip) file.
 2. [Login](https://cloud.oracle.com/resourcemanager/stacks/create) to Oracle Cloud Infrastructure to import the stack
     > `Home > Developer Services > Resource Manager > Stacks > Create Stack`
 3. Upload the `jenkins-stack-configuration.zip` file that was downloaded earlier, and provide a name and description for the stack
