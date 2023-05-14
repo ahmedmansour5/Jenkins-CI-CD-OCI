@@ -3,6 +3,7 @@ version: '3'
 volumes:
   jenkins_home:
   jenkinsRef:
+  jenkins_agent_home:
 
 services:
   jenkins:
