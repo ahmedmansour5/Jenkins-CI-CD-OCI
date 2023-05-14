@@ -28,7 +28,7 @@ services:
     image: jenkins/ssh-agent:jdk11
     restart: always
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - jenkins_agent_home:/home/jenkins
       - "/home/opc/.ssh/authorized_keys:/home/jenkins/.ssh/authorized_keys"
     # add the below if you want to use root user
     #privileged: true
