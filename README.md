@@ -82,6 +82,13 @@ When you no longer need the deployment, you can run this command to destroy the 
     terraform destroy
 
 
+## License
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE) for more details.
+
 [oci]: https://cloud.oracle.com
 [orm]: https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm
 [tf]: https://www.terraform.io
